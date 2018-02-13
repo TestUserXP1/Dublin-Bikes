@@ -51,11 +51,6 @@ public final class Log4JLogger implements Log{
 	
 	public static void initLogProps(final String logFilePropertyPrefix) {
 		
-		if(logFilePropertyPrefix.equalsIgnoreCase("notification") || 
-				configuredLogPropFilePrefixes.contains(logFilePropertyPrefix)){
-			return;
-		}
-		
 		final String logFileName = file_separator + logFilePropertyPrefix + _logPropFileSuffix;
 		
         synchronized (Log4JLogger.class) {
