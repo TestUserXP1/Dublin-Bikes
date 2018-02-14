@@ -1,0 +1,212 @@
+package TestNGLogger;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+import com.dublinbikes.common.constants.DataServiceConstants;
+/**
+ * 
+ * @author maaz
+ *
+ */
+
+
+public class TestNGlogger {
+
+	@Test(description = "This is a description for Initializing Logger")
+	public void loggermod() {
+		System.setProperty("com.sun.xml.ws.fault.SOAPFaultBuilder.disableCaptureStackTrace",
+				"false");
+		String configPath = System.getProperty(DataServiceConstants.SERVICES_CONFIGURATION_PATH);
+		if (null == configPath) {
+			configPath = System.getProperty(DataServiceConstants.CATALINA_BASE) + "/conf/";
+		Actualtext = driver.findElement(By.xpath("com.sun.xml.ws.fault.SOAPFaultBuilder.disableCaptureStackTrace", "false")).getText();
+		Assert.assertEquals(ActualText, "com.sun.xml.ws.fault.SOAPFaultBuilder.disableCaptureStackTrace");
+		}
+		else {
+		System.out.println("SEVERE: Unable to initialize logger.");
+		}
+		}
+
+	@Test(description= "Checking Log file name")
+	public void Logfilename() {
+		System.out.println("Load log properties file " + logFileName);
+        if (null != System.getProperty(DataServiceConstants.SERVICES_LOG_CONFIGURATION_PATH)) {
+        	String propertyFile = logFileName;
+            propertyFile = System.getProperty(DataServiceConstants.SERVICES_LOG_CONFIGURATION_PATH)
+                    + logFileName;
+         Assert.assertEquals(logFileName, SERVICES_LOG_CONFIGURATION_PATH);
+        } else {
+        	propertyFile = System.getProperty(DataServiceConstants.CATALINA_BASE)
+                    + "/conf/" + logFileName;  
+        	System.out.println("Log File name", logFileName);
+	    }
+	}
+	@Test(description = "Update Interval" )
+	public void updateinterval() {
+		try( FileInputStream fis=new FileInputStream(propertyFile)) {
+		System.out.println("Loading " + propertyFile);
+        logProps.load(fis);
+        System.out.println("Loaded " + propertyFile);
+      
+        PropertyConfigurator.configureAndWatch(propertyFile,
+                Integer.parseInt(logProps.getProperty("log4j_update_watch_interval")));
+        
+		configuredLogPropFilePrefixes.add(logFilePropertyPrefix);
+	Assert.assertEquals(logFilePropertyPrefix, "log4j_update_watch_interval");
+		}
+	catch(NumberFormatException nex)
+	 {
+		System.out.println("Log4J update watch interval is set to default value: 1 minute.");
+        PropertyConfigurator.configureAndWatch(propertyFile, 60000);
+        
+	}
+	
+	}
+	public Log4JLogger() {
+	}
+	@Test(description = "Name Test")
+	public Log4JLogger(String name) {
+		this.logger = Logger.getLogger(name);
+	assert.assertEquals(name, logger);
+	System.out.println("Name Test");
+	}
+    @Test(description = "Logger Test")
+	public Log4JLogger(Logger logger) {
+		this.logger = logger;
+		Assert.assertEquals(Logger, logger);
+		System.out.println("Log4j Logger");
+	}
+	@Test(description = "Message to String Test")
+	private static String format(String message) {
+		if (formatLogEnabled) {
+			return new NameValuePairLogMessage(message).toString();
+			Assert.assertEquals(message,format);
+		} else {
+			return message;
+		}
+	}
+
+	@Override
+	public void debug(Object message) {
+		debug(message, null);
+		
+	}
+
+	@Override
+	public void debug(Object message, Throwable t) {
+		logger.log(className, Level.DEBUG , message, t);
+		
+	}
+
+	@Override
+	public void error(Object message) {
+		error(message, null);
+		
+	}
+
+	@Override
+	public void error(Object message, Throwable t) {
+		logger.log(className, Level.ERROR , message, t);
+		
+	}
+
+	@Override
+	public void fatal(Object message) {
+		fatal(message, null);
+		
+	}
+
+	@Override
+	public void fatal(Object message, Throwable t) {
+		logger.log(className, Level.FATAL , message, t);
+		
+	}
+
+	@Override
+	public void info(Object message) {
+		info(message, null);
+		
+	}
+
+	@Override
+	public void info(Object message, Throwable t) {
+		logger.log(className, Level.INFO , message, t);
+		
+	}
+
+	@Override
+	public boolean isDebugEnabled() {
+		return logger.isDebugEnabled();
+	}
+
+	@Override
+	public boolean isErrorEnabled() {
+		return logger.isEnabledFor(Level.ERROR);
+	}
+
+	@Override
+	public boolean isFatalEnabled() {
+		return logger.isEnabledFor(Level.FATAL);
+	}
+
+	@Override
+	public boolean isInfoEnabled() {
+		return logger.isInfoEnabled();
+	}
+
+	@Override
+	public boolean isTraceEnabled() {
+		return logger.isDebugEnabled();
+	}
+
+	@Override
+	public boolean isWarnEnabled() {
+		return logger.isEnabledFor(Level.WARN);
+	}
+
+	@Override
+	public void trace(Object message) {
+		trace(message, null);	
+	}
+
+	@Override
+	public void trace(Object message, Throwable t) {
+		logger.log(className, Level.TRACE , message, t);
+		
+	}
+
+	@Override
+	public void warn(Object message) {
+		warn(message, null);
+		
+	}
+
+	@Override
+	public void warn(Object message, Throwable t) {
+		logger.log(className, Level.WARN, message, t);
+		
+	}
+	
+	public static final Log4JLogger getLogger(String name) {
+		return new Log4JLogger(name);
+	}
+
+	public static final Log4JLogger getLogger(Class c) {
+		return new Log4JLogger(c.getName());
+	}
+
+}
