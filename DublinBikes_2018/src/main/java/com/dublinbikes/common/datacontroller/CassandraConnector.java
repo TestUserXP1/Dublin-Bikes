@@ -1,7 +1,11 @@
 package com.dublinbikes.common.datacontroller;
 
-import com.datastax.driver.core.*;
-import com.datastax.driver.core.policies.DCAwareRoundRobinPolicy;
+import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.Host;
+import com.datastax.driver.core.Metadata;
+import com.datastax.driver.core.PlainTextAuthProvider;
+import com.datastax.driver.core.Row;
+import com.datastax.driver.core.Session;
 
 public class CassandraConnector {
 	public static void main(String[] args) {
