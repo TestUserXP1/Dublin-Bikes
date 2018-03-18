@@ -2,7 +2,7 @@ package tcd.ie.dublinbikes.db.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
 
 import org.springframework.data.cassandra.core.cql.Ordering;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
@@ -25,7 +25,7 @@ public class DBikesStationTimestamp implements Serializable {
 	private Integer number;
 	
     @PrimaryKeyColumn(name = "timestamp", ordinal = 1,type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING)
-	@CassandraType(type=Name.TIMESTAMP)
+	@CassandraType(type=Name.DATE)
 	private Date last_update;
 	
 	@CassandraType(type=Name.TEXT)

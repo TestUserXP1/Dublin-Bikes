@@ -24,7 +24,7 @@ public class DBikesStation implements Serializable {
 	private Integer number;
 	
 	@CassandraType(type=Name.TIMESTAMP)
-	private Date last_update;
+	private long last_update;
 	
 	@CassandraType(type=Name.TEXT)
 	private String address;
