@@ -25,8 +25,8 @@ public class DBikesStationTimestamp implements Serializable {
 	private Integer number;
 	
     @PrimaryKeyColumn(name = "timestamp", ordinal = 1,type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING)
-	@CassandraType(type=Name.DATE)
-	private Date last_update;
+	@CassandraType(type=Name.DOUBLE)
+	private long last_update;
 	
 	@CassandraType(type=Name.TEXT)
 	private String address;
