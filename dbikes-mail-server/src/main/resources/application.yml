@@ -1,0 +1,38 @@
+spring:
+  application.name: dbikes-mail-server
+  profiles.active: default
+---
+spring:
+  profiles: default
+  main.show-banner: false
+  pidfile: ${java.io.tmpdir}/dbikes-mail.pid
+  activemq:
+    broker-url : vm://localhost?broker.persistent=true&broker.useJmx=true&broker.persistent=true&broker.useShutdownHook=true&jms.redeliveryPolicy.maximumRedeliveries=3&jms.redeliveryPolicy.redeliveryDelay=2000
+    in-memory: false
+    pooled: true
+  mail:
+    host: smtp.tcd.ie
+    port: 587
+    username: kesavana@tcd.ie
+    password: abcdef
+    default-encoding: UTF-8
+server:
+  port: 8083
+logging:
+  file: ${java.io.tmpdir}/dbikes-mail.log
+  config: classpath:logback.xml
+management:
+  port: 8084
+  context-path: /management
+endpoints:
+  autoconfig.enabled: false
+  beans.enabled: false
+  configprops.enabled: false
+  dump.enabled: true
+  env.enabled: false
+  health.enabled: true
+  info.enabled: false
+  mappings.enabled: false
+  metrics.enabled: true
+  shutdown.enabled: true
+  trace.enabled: true
