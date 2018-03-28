@@ -3,25 +3,42 @@ package tcd.ie.dublinbikes.console.entity;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-/**
- * 
- * @author arun
- *
- */
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DBikesStation {
+public class DBikesStationData {
 	
+	@JsonProperty("number")
 	private Integer number;
-	private long last_update;
+	
+	@JsonProperty("last_update")
+	private String last_update;
+	
+	@JsonProperty("address")
 	private String address;
+	
+	@JsonProperty("available_bike_stands")
 	private BigDecimal available_bike_stands;
+	
+	@JsonProperty("available_bikes")
 	private String available_bikes;
+	
+	@JsonProperty("banking")
 	private boolean banking;
+	
+	@JsonProperty("bike_stands")
 	private Integer bike_stands;
+	
+	@JsonProperty("bonus")
 	private boolean bonus;
+	
+	@JsonProperty("name")
 	private String name;
+	
+	@JsonProperty("position")
 	private Position position;
+	
+	@JsonProperty("status")
 	private String status;
 	
 	public Integer getNumber() {
@@ -30,10 +47,10 @@ public class DBikesStation {
 	public void setNumber(Integer number) {
 		this.number = number;
 	}
-	public long getLast_update() {
+	public String getLast_update() {
 		return last_update;
 	}
-	public void setLast_update(long last_update) {
+	public void setLast_update(String last_update) {
 		this.last_update = last_update;
 	}
 	public String getAddress() {
@@ -90,7 +107,5 @@ public class DBikesStation {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
 
 }

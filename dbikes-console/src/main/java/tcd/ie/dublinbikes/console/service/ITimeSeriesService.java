@@ -1,8 +1,6 @@
 package tcd.ie.dublinbikes.console.service;
 
-import java.util.List;
-
-import tcd.ie.dublinbikes.console.entity.GraphAxis;
+import tcd.ie.dublinbikes.console.entity.TimeGraphResponse;
 
 /**
  * 
@@ -11,6 +9,10 @@ import tcd.ie.dublinbikes.console.entity.GraphAxis;
  */
 public abstract interface ITimeSeriesService {
 	
-	public List<GraphAxis> getHourlyPlotData(String data);
+	public TimeGraphResponse getHourlyPlotData(String id, String data);
+	
+	public TimeGraphResponse getDailyPlotData(String id, String dbData, String predData);
+	
+	public TimeGraphResponse getWeekPlotData(String id, String dbData, String predData);
 
 }

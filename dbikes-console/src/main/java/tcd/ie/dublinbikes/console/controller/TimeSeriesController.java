@@ -1,7 +1,6 @@
 package tcd.ie.dublinbikes.console.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,9 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import tcd.ie.dublinbikes.console.entity.GraphAxis;
 import tcd.ie.dublinbikes.console.entity.TimeGraphResponse;
-import tcd.ie.dublinbikes.console.helper.TimeSeriesHelper;
+import tcd.ie.dublinbikes.console.helper.ClientHelper;
 import tcd.ie.dublinbikes.console.service.ITimeSeriesService;
 import tcd.ie.dublinbikes.console.util.ComputeTime;
 
@@ -32,7 +30,7 @@ import tcd.ie.dublinbikes.console.util.ComputeTime;
 public class TimeSeriesController {
 	
 	@Autowired
-	TimeSeriesHelper tsHelper;
+	ClientHelper tsHelper;
 	
 	@Autowired
 	ITimeSeriesService tsService;
@@ -42,23 +40,21 @@ public class TimeSeriesController {
 	public String getHourInfoById(@PathVariable Integer id) {
 		
 		ComputeTime ct = new ComputeTime();
-		ArrayList<Long> time = ct.hourTimeDiff();
+		ArrayList<String> time = ct.hourTimeDiff();
 		String dataResp = tsHelper.getDataFromDb(id.toString(), time);
-		
-		System.out.println(dataResp);
-		List<GraphAxis> graphAxis = tsService.getHourlyPlotData(dataResp);
-		TimeGraphResponse tgRes = new TimeGraphResponse();
-		tgRes.setId(id.toString());
-		tgRes.setGraphAxis(graphAxis);
-		
-		ObjectMapper mapper = new ObjectMapper();
 		String response = null;
-		try {
-			response = mapper.writeValueAsString(tgRes);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+		if(dataResp != null) {
+			System.out.println(dataResp);
+			TimeGraphResponse tgRes = tsService.getHourlyPlotData(String.valueOf(id), dataResp);
+			
+			ObjectMapper mapper = new ObjectMapper();
+			
+			try {
+				response = mapper.writeValueAsString(tgRes);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}	
 		}
-		
 		return response;
 	}
 	
@@ -67,23 +63,23 @@ public class TimeSeriesController {
 	public String getDailyInfoById(@PathVariable Integer id) {
 		
 		ComputeTime ct = new ComputeTime();
-		ArrayList<Long> time = ct.dailyTimeDiff();
-		String dataResp = tsHelper.getDataFromDb(id.toString(), time);
-		
-		System.out.println(dataResp);
-		List<GraphAxis> graphAxis = tsService.getHourlyPlotData(dataResp);
-		TimeGraphResponse tgRes = new TimeGraphResponse();
-		tgRes.setId(id.toString());
-		tgRes.setGraphAxis(graphAxis);
-		
-		ObjectMapper mapper = new ObjectMapper();
+		ArrayList<String> time = ct.dailyTimeDiff();
+		String dataResp = tsHelper.getAverageDataFromDB(id.toString(), time);
 		String response = null;
-		try {
-			response = mapper.writeValueAsString(tgRes);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+		if(dataResp != null) {
+			System.out.println(dataResp);
+			
+			String predictData = tsHelper.getPredictDataFromS3();
+			TimeGraphResponse tgRes = tsService.getDailyPlotData(String.valueOf(id), dataResp, predictData);
+			
+			ObjectMapper mapper = new ObjectMapper();
+			
+			try {
+				response = mapper.writeValueAsString(tgRes);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		}
-		
 		return response;
 	}
   
@@ -92,23 +88,23 @@ public class TimeSeriesController {
 	public String getWeekInfoById(@PathVariable Integer id) {
 		
 		ComputeTime ct = new ComputeTime();
-		ArrayList<Long> time = ct.weekTimeDiff();
-		String dataResp = tsHelper.getDataFromDb(id.toString(), time);
-		
-		System.out.println(dataResp);
-		List<GraphAxis> graphAxis = tsService.getHourlyPlotData(dataResp);
-		TimeGraphResponse tgRes = new TimeGraphResponse();
-		tgRes.setId(id.toString());
-		tgRes.setGraphAxis(graphAxis);
-		
-		ObjectMapper mapper = new ObjectMapper();
+		ArrayList<String> time = ct.weekTimeDiff();
+		String dataResp = tsHelper.getAverageDataFromDB(id.toString(), time);
 		String response = null;
-		try {
-			response = mapper.writeValueAsString(tgRes);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+		if(dataResp != null) {
+			System.out.println(dataResp);
+			
+			String predictData = tsHelper.getPredictDataFromS3();
+			TimeGraphResponse tgRes = tsService.getWeekPlotData(String.valueOf(id), dataResp, predictData);
+			
+			ObjectMapper mapper = new ObjectMapper();
+			
+			try {
+				response = mapper.writeValueAsString(tgRes);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		}
-		
 		return response;
 	}
 	
@@ -117,23 +113,21 @@ public class TimeSeriesController {
 	public String getMonthlyInfoById(@PathVariable Integer id) {
 
 		ComputeTime ct = new ComputeTime();
-		ArrayList<Long> time = ct.monthTimeDiff();
-		String dataResp = tsHelper.getDataFromDb(id.toString(), time);
-		
-		System.out.println(dataResp);
-		List<GraphAxis> graphAxis = tsService.getHourlyPlotData(dataResp);
-		TimeGraphResponse tgRes = new TimeGraphResponse();
-		tgRes.setId(id.toString());
-		tgRes.setGraphAxis(graphAxis);
-		
-		ObjectMapper mapper = new ObjectMapper();
+		ArrayList<String> time = ct.monthTimeDiff();
+		String dataResp = tsHelper.getAverageDataFromDB(id.toString(), time);
 		String response = null;
-		try {
-			response = mapper.writeValueAsString(tgRes);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+		if(dataResp != null) {
+			System.out.println(dataResp);
+			TimeGraphResponse tgRes = tsService.getHourlyPlotData(String.valueOf(id), dataResp);
+			tgRes.setId(id.toString());
+			
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				response = mapper.writeValueAsString(tgRes);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		}
-		
 		return response;
 	}
 
